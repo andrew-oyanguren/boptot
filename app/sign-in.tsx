@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Text, View, StyleSheet, TextInput } from 'react-native';
 import { router } from 'expo-router';
 
-import { Button } from '../components';
+import { Button } from '@/components';
 
 
 const onSignIn = () => {
