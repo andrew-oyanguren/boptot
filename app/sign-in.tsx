@@ -1,6 +1,8 @@
 import { Text, View, StyleSheet, TextInput, Pressable } from 'react-native';
 import { router, Link } from 'expo-router';
 
+import { Button } from '../components';
+
 
 const onSignIn = () => {
   console.log('Sign In fired...')
@@ -17,9 +19,7 @@ export default function SignIn() {
 
       <TextInput style={styles.input} placeholder='Password'/>
 
-      <Pressable style={styles.button} onPress={onSignIn}>
-        <Text>Sign In</Text>
-      </Pressable>
+      <Button onPress={onSignIn} variant='secondary'>Sign In</Button>
 
       <Link href='/home'>Create and account</Link>
     </View>
@@ -32,17 +32,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'pink',
     flex: 1,
+    paddingHorizontal: 20,
   },
   input: {
     height: 40,
-    margin: 12,
     borderWidth: 1,
     padding: 10,
     borderColor: 'black',
   },
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-  }
+  
 });
