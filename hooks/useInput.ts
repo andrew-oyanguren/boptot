@@ -1,27 +1,77 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useCallback} from 'react';
+import debounce from 'lodash.debounce';
 
 type InputConfig = {
   initValue: string;
   validateInput?: (value: string) => boolean;
 }
 
-const useInput = ({initValue, validateInput}: InputConfig) => {
+const useInput = ({ initValue, validateInput }: InputConfig) => {
   const [value, setValue] = useState(initValue);
-  const [isValid, setIsValid] = useState<null | boolean>(null);
+  const [isTouched, setIsTouched] = useState(false);
+  const [isValid, setIsValid] = useState(true);
+
+   const hasError = isTouched && !isValid;
+
+  const debouncedValidation = useCallback(debounce((value: string) => {
+    if (validateInput) {
+      console.log('[executed] debouncedValidation fired...');
+      setIsValid(validateInput(value));
+    }
+  }, 400), []);
+  
+  const onBlur = () => {
+    if (value === initValue) {
+      console.log('[aborted] onBlur returning early...');
+      return;
+    }
+
+    setIsTouched(true);
+  };
+
+  const onChange = (value: string) => {
+    setValue(value);
+  };
+  
+  const onFocus = () => {
+    if (hasError) {
+      console.log('[onFocus] resetting isValid...');
+      // setIsValid(true);
+      setIsTouched(false);
+    }
+  };
 
   useEffect(() => {
-    if (value === initValue || !validateInput) {
+    if (value === initValue || validateInput === undefined) {
       console.log('[aborted] validation returned early...');
       return;
     }
 
-    console.log('[executed] validating input fired...');
-    setIsValid(validateInput(value));
+    debouncedValidation(value);
   }, [value]);
 
+// TODO: REMOVE EFFECTS FOR DEVELOPMENT ONLY
+useEffect(() => {
+    console.log('[STATE] input value: ', value);
+  }, [value]);
+
+  useEffect(() => {
+    console.log('[STATE] input isTouched: ', isTouched);
+  }, [isTouched]);
+
+  useEffect(() => {
+    console.log('[STATE] input isValid: ', isValid);
+  }, [isValid]);
+
+  useEffect(() => {
+    console.log('[Inferred] hasError: ', hasError);
+  }, [hasError]);
+
   return {
-    isValid,
-    onChangeText: setValue,
+    hasError,
+    onBlur,
+    onChange,
+    onFocus,
     value,
   };
 };

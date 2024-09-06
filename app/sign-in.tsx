@@ -1,36 +1,37 @@
-import { Text, View, StyleSheet, TextInput } from 'react-native';
+import { useState, useEffect } from 'react';
+import { Text, View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Link } from 'expo-router';
 
-import { Button } from '@/components';
+import { SignInForm } from '@/components';
+import ErrorToast from '@/components/Toasts/ErrorToast';
 import { commonStyles } from '@/styles';
 
-
-const onSignIn = () => {
-  console.log('Sign In fired...')
-};
-
-const SignInForm = () => (
-  <View style={{marginTop: 40}}>
-    <TextInput style={styles.input} placeholder='Email'/>
-
-    <TextInput style={styles.input} placeholder='Password'/>
-
-    <Button onPress={onSignIn}>Sign In</Button>
-  </View>
-);
-
 export default function SignIn() {
+  const [isToastVisible, setIsToastVisible] = useState(false);
+
+  useEffect(() => {
+    console.log('[STATE] isToastVisible: ', isToastVisible);
+  }, [isToastVisible]);
+
+  const onError = () => {
+    setIsToastVisible(true);
+  };
+
   return (
-    <View style={styles.pageContainer}>
-      <Text style={commonStyles.title}>Bop Tot</Text>
+    <TouchableWithoutFeedback onPress={() => setIsToastVisible(false)} >
+      <View style={styles.pageContainer}>
+        <Text style={commonStyles.title}>Bop Tot</Text>
 
-      <SignInForm />
+        <SignInForm onError={onError}/>
 
-      <View style={styles.aside}>
-        <Text>Don't have an account?</Text>
-        <Link style={{ marginLeft: 6, color: '#5EAEF6', fontWeight: 600 }} href='/create-account'>Create an account</Link>
+        <View style={styles.aside}>
+          <Text>Don't have an account?</Text>
+          <Link style={{ marginLeft: 6, color: '#5EAEF6', fontWeight: 600 }} href='/create-account'>Create an account</Link>
+        </View>
+
+        { isToastVisible ? <ErrorToast variant='error'/> : null }
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
   pageContainer: {
     display: 'flex',
     justifyContent: 'center',
-    // backgroundColor: 'pink',
+    backgroundColor: 'pink',
     flex: 1,
     paddingHorizontal: 20,
   },

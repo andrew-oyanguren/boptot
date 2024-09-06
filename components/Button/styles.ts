@@ -6,6 +6,10 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderRadius: 6,
   },
+
+  disabled: {
+    backgroundColor: '#ccc',
+  },
   
   primary: {
     backgroundColor: '#5EAEF6',

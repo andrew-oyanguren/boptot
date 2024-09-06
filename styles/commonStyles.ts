@@ -5,7 +5,6 @@ const commonStyles = StyleSheet.create({
     color: '#5EAEF6',
     fontSize: 36,
     fontWeight: '600',
-    // backgroundColor: 'lime',
     textAlign: 'center',
   },
 });
