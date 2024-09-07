@@ -2,7 +2,12 @@ import { View, StyleSheet } from 'react-native';
 import { useState, useEffect } from 'react';
 
 import { useInput } from '@/hooks';
+import { REG_EXP_EMAIL } from '@/constants/validators';
 import { Button, FormControl, FormInput } from '@/components';
+
+const validateEmail = (email: string) => {
+  return REG_EXP_EMAIL.test(email);
+};
 
 
 
@@ -21,7 +26,7 @@ export default function SignInForm({onError}: {onError: () => void}) {
     onFocus: onFocusEmail, 
     hasError: emailHasError,
     isFocused: isEmailFocused,
-  } = useInput({ initValue: '', validateInput: (value) => value.length > 3});
+  } = useInput({ initValue: '', validateInput: validateEmail});
 
   const { 
     value: password, 
