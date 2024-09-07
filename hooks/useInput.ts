@@ -9,6 +9,7 @@ type InputConfig = {
 const useInput = ({ initValue, validateInput }: InputConfig) => {
   const [value, setValue] = useState(initValue);
   const [isTouched, setIsTouched] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const [isValid, setIsValid] = useState(true);
 
    const hasError = isTouched && !isValid;
@@ -21,6 +22,8 @@ const useInput = ({ initValue, validateInput }: InputConfig) => {
   }, 400), []);
   
   const onBlur = () => {
+    setIsFocused(false);
+
     if (value === initValue) {
       console.log('[aborted] onBlur returning early...');
       return;
@@ -34,6 +37,8 @@ const useInput = ({ initValue, validateInput }: InputConfig) => {
   };
   
   const onFocus = () => {
+    setIsFocused(true);
+
     if (hasError) {
       console.log('[onFocus] resetting isValid...');
       // setIsValid(true);
@@ -69,6 +74,7 @@ useEffect(() => {
 
   return {
     hasError,
+    isFocused,
     onBlur,
     onChange,
     onFocus,

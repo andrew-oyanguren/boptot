@@ -28,7 +28,7 @@ export default function SignIn() {
           <Link style={{ marginLeft: 6, color: '#5EAEF6', fontWeight: 600 }} href='/create-account'>Create an account</Link>
         </View>
 
-        { isToastVisible ? <ErrorToast variant='error'/> : null }
+        { isToastVisible ? <ErrorToast variant='success'/> : null }
       </View>
     </TouchableWithoutFeedback>
   );

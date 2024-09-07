@@ -12,12 +12,13 @@ type FormInputProps = {
     value: string;
   },
   inputHasError: boolean;
+  inputFocused?: boolean;
 }
 
 // TODO: add isFocused styles
 
-export default function FormInput({ props, inputHasError }: FormInputProps) {
-  const inputStyles = {...styles.input, ...(inputHasError ? styles.error : {})};
+export default function FormInput({ props, inputHasError, inputFocused }: FormInputProps) {
+  const inputStyles = {...styles.input, ...(inputFocused ? styles.focused : {}),...(inputHasError ? styles.error : {})};
 
   return (
     <TextInput style={inputStyles} {...props} />
@@ -35,5 +36,8 @@ const styles = StyleSheet.create({
   },
   error: {
     borderColor: 'red',
+  },
+  focused: {
+    borderColor: '#5EAEF6',
   },
 });

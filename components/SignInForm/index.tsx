@@ -14,9 +14,23 @@ export default function SignInForm({onError}: {onError: () => void}) {
     console.log('[STATE] formError: ', formError);
   }, [formError]);
 
-  const { value: email, onBlur: onBlurEmail, onChange: onChangeEmail, onFocus: onFocusEmail, hasError: emailHasError } = useInput({ initValue: '', validateInput: (value) => value.length > 3});
+  const { 
+    value: email, 
+    onBlur: onBlurEmail, 
+    onChange: onChangeEmail, 
+    onFocus: onFocusEmail, 
+    hasError: emailHasError,
+    isFocused: isEmailFocused,
+  } = useInput({ initValue: '', validateInput: (value) => value.length > 3});
 
-  const { value: password, onBlur: onBlurPassword, onChange: onChangePassword, onFocus: onFocusPassword, hasError: passwordHasError } = useInput({ initValue: '', validateInput: (value) => value.length > 3});
+  const { 
+    value: password, 
+    onBlur: onBlurPassword, 
+    onChange: onChangePassword, 
+    onFocus: onFocusPassword, 
+    hasError: passwordHasError,
+    isFocused: isPasswordFocused,
+  } = useInput({ initValue: '', validateInput: (value) => value.length > 3});
 
   const inputError = emailHasError || passwordHasError || !email.length || !password.length;
 
@@ -45,28 +59,32 @@ export default function SignInForm({onError}: {onError: () => void}) {
       <View style={styles.form}>
         <FormControl error={{hasError: emailHasError, message: 'You fucked up A. A. Ron!'}}>
           <FormInput 
-          props={{ 
-            value: email, 
-            onBlur: onBlurEmail, 
-            onChangeText: onChangeEmail, 
-            onFocus: onFocusEmail, 
-            placeholder: 'Email', 
-            keyboardType: 'email-address' 
-          }} 
-          inputHasError={emailHasError} />
+            props={{ 
+              value: email, 
+              onBlur: onBlurEmail, 
+              onChangeText: onChangeEmail, 
+              onFocus: onFocusEmail, 
+              placeholder: 'Email', 
+              keyboardType: 'email-address' 
+            }} 
+            inputHasError={emailHasError} 
+            inputFocused={isEmailFocused}
+          />
         </FormControl>
 
         <FormControl error={{hasError: passwordHasError, message: 'You fucked up A. A. Ron!'}}>
           <FormInput 
-          props={{ 
-            value: password, 
-            onBlur: onBlurPassword, 
-            onChangeText: onChangePassword, 
-            onFocus: onFocusPassword, 
-            placeholder: 'Password', 
-            secureTextEntry: true
-          }} 
-          inputHasError={passwordHasError} />
+            props={{ 
+              value: password, 
+              onBlur: onBlurPassword, 
+              onChangeText: onChangePassword, 
+              onFocus: onFocusPassword, 
+              placeholder: 'Password', 
+              secureTextEntry: true
+            }} 
+            inputHasError={passwordHasError} 
+            inputFocused={isPasswordFocused}
+          />
         </FormControl>
       
         <Button disabled={inputError} onPress={onSignIn} isLoading={isLoading}>Sign In</Button>
