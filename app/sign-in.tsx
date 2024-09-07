@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Link } from 'expo-router';
 
-import { SignInForm } from '@/components';
-import ErrorToast from '@/components/Toasts/ErrorToast';
+import { SignInForm, Toast as ErrorToast } from '@/components';
 import { commonStyles } from '@/styles';
 
 export default function SignIn() {
@@ -39,23 +38,9 @@ const styles = StyleSheet.create({
   pageContainer: {
     display: 'flex',
     justifyContent: 'center',
-    backgroundColor: 'pink',
+    // backgroundColor: 'pink',
     flex: 1,
     paddingHorizontal: 20,
-  },
-  pageTitle: {
-    color: '#5EAEF6',
-    fontSize: 36,
-    fontWeight: '600',
-    backgroundColor: 'lime',
-    textAlign: 'center',
-  },
-  input: {
-    height: 40,
-    borderWidth: 1,
-    padding: 10,
-    borderColor: 'black',
-    marginBottom: 20,
   },
   aside: {
     display: 'flex',

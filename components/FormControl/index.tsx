@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
     borderColor: 'red',
   },
   message: {
-    backgroundColor: 'pink',
+    // backgroundColor: 'pink',
     paddingVertical: 4,
-  }
+    color: 'red',
+  },
 });

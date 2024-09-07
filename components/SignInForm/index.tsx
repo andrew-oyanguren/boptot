@@ -8,6 +8,7 @@ import { Button, FormControl } from '@/components';
 
 export default function SignInForm({onError}: {onError: () => void}) {
   const [formError, setFormError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     console.log('[STATE] formError: ', formError);
@@ -20,16 +21,23 @@ export default function SignInForm({onError}: {onError: () => void}) {
   const inputError = emailHasError || passwordHasError || !email.length || !password.length;
 
   const onSignIn = () => {
+    setIsLoading(true);
     console.log('[onSignIn] onSignIn In fired...')
 
     if (inputError) {
       console.log('[ERROR] Form has errors...');
+      setIsLoading(false);
       return
     }
 
-    setFormError(true);
-    onError();
-    console.log('[SUBMIT] Form submitted...');
+    const timeout = setTimeout(() => {
+      setFormError(true);
+     onError();
+     console.log('[SUBMIT] Form submitted...');
+     setIsLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timeout);
   };
 
   return (
@@ -39,7 +47,7 @@ export default function SignInForm({onError}: {onError: () => void}) {
 
         <FormControl inputConfig={{ value: password, onBlur: onBlurPassword, onChangeText: onChangePassword, onFocus: onFocusPassword, placeholder: 'Password', secureTextEntry: true }} errorConfig={{ error: passwordHasError, message: 'You fucked up again A. A. Ron!' }} />
       
-        <Button disabled={inputError} onPress={onSignIn}>Sign In</Button>
+        <Button disabled={inputError} onPress={onSignIn} isLoading={isLoading}>Sign In</Button>
       </View>
     </>
   );
@@ -47,7 +55,7 @@ export default function SignInForm({onError}: {onError: () => void}) {
 
 const styles = StyleSheet.create({
   form: {
-    backgroundColor: 'orange',
+    // backgroundColor: 'orange',
     marginTop: 40,
   },
 });
