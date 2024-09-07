@@ -1,0 +1,1 @@
+export const REG_EXP_EMAIL = /^((?!\.)[\w\-_.+]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm;

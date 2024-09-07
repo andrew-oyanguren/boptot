@@ -1,28 +1,36 @@
-import { Text, View, StyleSheet, TextInput, Pressable } from 'react-native';
-import { router, Link } from 'expo-router';
+import { useState, useEffect } from 'react';
+import { Text, View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { Link } from 'expo-router';
 
-import { Button } from '../components';
-
-
-const onSignIn = () => {
-  console.log('Sign In fired...')
-
-  router.navigate('/home');
-};
+import { SignInForm, Toast as ErrorToast } from '@/components';
+import { commonStyles } from '@/styles';
 
 export default function SignIn() {
+  const [isToastVisible, setIsToastVisible] = useState(false);
+
+  useEffect(() => {
+    console.log('[STATE] isToastVisible: ', isToastVisible);
+  }, [isToastVisible]);
+
+  const onError = () => {
+    setIsToastVisible(true);
+  };
+
   return (
-    <View style={styles.pageContainer}>
-      <Text>Bop Tot</Text>
+    <TouchableWithoutFeedback onPress={() => setIsToastVisible(false)} >
+      <View style={styles.pageContainer}>
+        <Text style={commonStyles.title}>Bop Tot</Text>
 
-      <TextInput style={styles.input} placeholder='Email'/>
+        <SignInForm onError={onError}/>
 
-      <TextInput style={styles.input} placeholder='Password'/>
+        <View style={styles.aside}>
+          <Text>Don't have an account?</Text>
+          <Link style={{ marginLeft: 6, color: '#5EAEF6', fontWeight: 600 }} href='/create-account'>Create an account</Link>
+        </View>
 
-      <Button onPress={onSignIn} variant='secondary'>Sign In</Button>
-
-      <Link href='/home'>Create and account</Link>
-    </View>
+        { isToastVisible ? <ErrorToast variant='success'/> : null }
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -30,15 +38,13 @@ const styles = StyleSheet.create({
   pageContainer: {
     display: 'flex',
     justifyContent: 'center',
-    backgroundColor: 'pink',
+    // backgroundColor: 'pink',
     flex: 1,
     paddingHorizontal: 20,
   },
-  input: {
-    height: 40,
-    borderWidth: 1,
-    padding: 10,
-    borderColor: 'black',
+  aside: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: 16,
   },
-  
 });
