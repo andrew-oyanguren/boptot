@@ -2,7 +2,7 @@ import { View, StyleSheet } from 'react-native';
 import { useState, useEffect } from 'react';
 
 import { useInput } from '@/hooks';
-import { Button, FormControl } from '@/components';
+import { Button, FormControl, FormInput } from '@/components';
 
 
 
@@ -35,7 +35,7 @@ export default function SignInForm({onError}: {onError: () => void}) {
      onError();
      console.log('[SUBMIT] Form submitted...');
      setIsLoading(false);
-    }, 3000);
+    }, 2000);
 
     return () => clearTimeout(timeout);
   };
@@ -43,9 +43,31 @@ export default function SignInForm({onError}: {onError: () => void}) {
   return (
     <>
       <View style={styles.form}>
-        <FormControl inputConfig={{ value: email, onBlur: onBlurEmail, onChangeText: onChangeEmail, onFocus: onFocusEmail, placeholder: 'Email', keyboardType: 'email-address' }} errorConfig={{ error: emailHasError, message: 'You fucked up A. A. Ron!' }} />
+        <FormControl error={{hasError: emailHasError, message: 'You fucked up A. A. Ron!'}}>
+          <FormInput 
+          props={{ 
+            value: email, 
+            onBlur: onBlurEmail, 
+            onChangeText: onChangeEmail, 
+            onFocus: onFocusEmail, 
+            placeholder: 'Email', 
+            keyboardType: 'email-address' 
+          }} 
+          inputHasError={emailHasError} />
+        </FormControl>
 
-        <FormControl inputConfig={{ value: password, onBlur: onBlurPassword, onChangeText: onChangePassword, onFocus: onFocusPassword, placeholder: 'Password', secureTextEntry: true }} errorConfig={{ error: passwordHasError, message: 'You fucked up again A. A. Ron!' }} />
+        <FormControl error={{hasError: passwordHasError, message: 'You fucked up A. A. Ron!'}}>
+          <FormInput 
+          props={{ 
+            value: password, 
+            onBlur: onBlurPassword, 
+            onChangeText: onChangePassword, 
+            onFocus: onFocusPassword, 
+            placeholder: 'Password', 
+            secureTextEntry: true
+          }} 
+          inputHasError={passwordHasError} />
+        </FormControl>
       
         <Button disabled={inputError} onPress={onSignIn} isLoading={isLoading}>Sign In</Button>
       </View>

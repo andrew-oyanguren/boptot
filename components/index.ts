@@ -1,4 +1,5 @@
 export { default as Button } from './Button';
+export { default as FormInput } from './FormInput';
 export { default as Loader } from './Loader';
 export { default as SignInForm } from './SignInForm';
 export { default as Toast } from './Toast';
