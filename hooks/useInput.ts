@@ -19,16 +19,22 @@ const useInput = ({ initValue, validateInput }: InputConfig) => {
       console.log('[executed] debouncedValidation fired...');
       setIsValid(validateInput(value));
     }
-  }, 400), []);
+  }, 475), []);
   
   const onBlur = () => {
     setIsFocused(false);
+    
+    console.log('[onBlur] onBlur fired...');
 
     if (value === initValue) {
       console.log('[aborted] onBlur returning early...');
       return;
     }
 
+    if (validateInput && !isTouched) {
+      setIsValid(validateInput(value));
+    }
+    
     setIsTouched(true);
   };
 
@@ -38,20 +44,21 @@ const useInput = ({ initValue, validateInput }: InputConfig) => {
   
   const onFocus = () => {
     setIsFocused(true);
+    console.log('[onBlur] onFocus fired...');
 
     if (hasError) {
       console.log('[onFocus] resetting isValid...');
-      // setIsValid(true);
-      setIsTouched(false);
+      setIsValid(true);
+      // setIsTouched(false);
     }
   };
 
   useEffect(() => {
-    if (value === initValue || validateInput === undefined) {
+    if (!validateInput || !isTouched) {
       console.log('[aborted] validation returned early...');
       return;
     }
-
+    setIsValid(true);
     debouncedValidation(value);
   }, [value]);
 

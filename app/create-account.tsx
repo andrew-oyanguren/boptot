@@ -1,23 +1,7 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { Link } from 'expo-router';
-import { Button } from '@/components';
+import { CreateAccountForm } from '@/components';
 import { commonStyles } from '@/styles';
-
-function CreateAccountForm({ onPress }: { onPress: () => void }) {
-
-  return (
-    <View style={{marginTop: 40}}>
-      <TextInput style={styles.input} placeholder='Name'/>
-
-      <TextInput style={styles.input} placeholder='Email'/>
-
-      <TextInput style={styles.input} placeholder='Create a password'/>
-
-      <Button onPress={onPress}>Create account</Button>
-    </View>
-  );
-  
-};
 
 const onCreateAccount = () => {
     console.log('Create account fired...')
@@ -28,7 +12,7 @@ export default function CreateAccount() {
     <View style={styles.pageContainer}>
       <Text style={commonStyles.title}>Create account</Text>
 
-      <CreateAccountForm onPress={onCreateAccount}/>
+      <CreateAccountForm onError={() => console.log('error')}/>
       
       <View style={styles.aside}>
         <Text>Already have an account?</Text>

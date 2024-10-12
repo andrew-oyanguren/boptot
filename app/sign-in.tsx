@@ -2,33 +2,35 @@ import { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Link } from 'expo-router';
 
-import { SignInForm, Toast as ErrorToast } from '@/components';
+import { SignInForm, SubToast } from '@/components';
 import { commonStyles } from '@/styles';
 
+type SubToastVariant = 'error' | 'success';
+
 export default function SignIn() {
-  const [isToastVisible, setIsToastVisible] = useState(false);
+  const [subToast, setSubToast] = useState<SubToastVariant | ''>('');
 
   useEffect(() => {
-    console.log('[STATE] isToastVisible: ', isToastVisible);
-  }, [isToastVisible]);
+    console.log('[STATE] subToast: ', subToast);
+  }, [setSubToast]);
 
-  const onError = () => {
-    setIsToastVisible(true);
+  const onAlert = (variant: SubToastVariant) => {
+    setSubToast(variant);
   };
 
   return (
-    <TouchableWithoutFeedback onPress={() => setIsToastVisible(false)} >
+    <TouchableWithoutFeedback onPress={() => setSubToast('')} >
       <View style={styles.pageContainer}>
         <Text style={commonStyles.title}>Bop Tot</Text>
 
-        <SignInForm onError={onError}/>
+        <SignInForm onAlert={onAlert}/>
 
         <View style={styles.aside}>
           <Text>Don't have an account?</Text>
           <Link style={{ marginLeft: 6, color: '#5EAEF6', fontWeight: 600 }} href='/create-account'>Create an account</Link>
         </View>
 
-        { isToastVisible ? <ErrorToast variant='success'/> : null }
+        { !!subToast.length ? <SubToast variant={subToast as SubToastVariant}/> : null }
       </View>
     </TouchableWithoutFeedback>
   );

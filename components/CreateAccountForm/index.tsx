@@ -1,5 +1,6 @@
 import { View, StyleSheet } from 'react-native';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'expo-router';
 
 import { useInput } from '@/hooks';
 import { REG_EXP_EMAIL } from '@/constants/validators';
@@ -9,15 +10,24 @@ const validateEmail = (email: string) => {
   return REG_EXP_EMAIL.test(email);
 };
 
-
-
-export default function SignInForm({ onAlert }: { onAlert: (variant: 'error' | 'success') => void}) {
+export default function CreateAccountForm({ onError }: { onError: () => void }) {
   const [formError, setFormError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     console.log('[STATE] formError: ', formError);
   }, [formError]);
+
+  const { 
+    value: firstName, 
+    onBlur: onBlurFirstName, 
+    onChange: onChangeFirstName, 
+    onFocus: onFocusFirstName, 
+    hasError: firstNamelHasError,
+    isFocused: isFirstNameFocused,
+  } = useInput({ initValue: '', validateInput: (value) => value.length > 0});
 
   const { 
     value: email, 
@@ -51,8 +61,9 @@ export default function SignInForm({ onAlert }: { onAlert: (variant: 'error' | '
 
     const timeout = setTimeout(() => {
       setFormError(true);
-      onAlert('success');
+      // onError();
       console.log('[SUBMIT] Form submitted...');
+      router.navigate('/sign-in');
       setIsLoading(false);
     }, 2000);
 
@@ -62,6 +73,20 @@ export default function SignInForm({ onAlert }: { onAlert: (variant: 'error' | '
   return (
     <>
       <View style={styles.form}>
+        <FormControl error={{hasError: firstNamelHasError, message: 'You fucked up A. A. Ron!'}}>
+          <FormInput 
+            props={{ 
+              value: firstName, 
+              onBlur: onBlurFirstName, 
+              onChangeText: onChangeFirstName, 
+              onFocus: onFocusFirstName, 
+              placeholder: 'First Name', 
+            }} 
+            inputHasError={firstNamelHasError} 
+            inputFocused={isFirstNameFocused}
+          />
+        </FormControl>
+        
         <FormControl error={{hasError: emailHasError, message: 'You fucked up A. A. Ron!'}}>
           <FormInput 
             props={{ 

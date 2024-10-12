@@ -2,22 +2,22 @@ import { useRef, useEffect } from 'react';
 import { Animated, StyleSheet, Text, View } from 'react-native';
 import {Icon, icons} from 'lucide-react-native';
 
-const toastVariants = {
+const subToastVariants = {
   success: {
     message: 'Woohoo! You did it!',
     Icon: icons.CircleCheck,
-    color: 'black',
+    color: '#4BB543',
   },
   error: {
     message: 'Oh snap! unable to sign in',
     Icon: icons.CircleAlert,
-    color: 'red',
+    color: '#C30010',
   }
 };
 
-export default function ErrorToast({ variant }: {variant: 'error' | 'success'}) {
+export default function SubToast({ variant }: {variant: 'error' | 'success'}) {
   const animatedValue = useRef(new Animated.Value(0)).current;
-  const {message, Icon, color} = toastVariants[variant];
+  const {message, Icon, color} = subToastVariants[variant];
 
   useEffect(() => {
     Animated.timing(animatedValue, {
@@ -28,8 +28,8 @@ export default function ErrorToast({ variant }: {variant: 'error' | 'success'}) 
   }, []);
 
   return (
-    <Animated.View style={{...styles.toast, ...styles[variant], transform: [{ translateY: animatedValue }] }}>
-      <Text style={{ fontSize: 16, flex: 1, color: 'black'}}>{message}</Text>
+    <Animated.View style={{...styles.subToast, ...styles[variant], transform: [{ translateY: animatedValue }] }}>
+      <Text style={{ fontSize: 16, fontWeight: 500, flex: 1, color: color}}>{message}</Text>
       <View>
         <Icon size={48} color={color} strokeWidth={2} />
       </View>
@@ -38,9 +38,8 @@ export default function ErrorToast({ variant }: {variant: 'error' | 'success'}) 
 };
 
 const styles = StyleSheet.create({
-  toast: {
+  subToast: {
     padding: 12,
-    borderWidth: 2,
     borderRadius: 16,
     borderTopRightRadius: 50,
     borderBottomRightRadius: 50,
@@ -54,10 +53,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   error: {
-    backgroundColor: 'pink',
-    borderColor: 'salmon',
+    backgroundColor: '#F69697',
   },
   success: {
-    backgroundColor: '#B6DA9F',
+    backgroundColor: '#BEE3BE',
   },
 });
